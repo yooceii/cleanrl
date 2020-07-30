@@ -51,21 +51,6 @@ class RewardForwardFilter(object):
             self.rewems = self.rewems * self.gamma + rews
         return self.rewems
 
-def _flatten_helper(T, N, _tensor):
-    return _tensor.view(T * N, *_tensor.size()[2:])
-
-def _unflatten_helper(T, N, _tensor):
-    return _tensor.view(T, N, *_tensor.size()[1:])
-
-def init(module, weight_init, bias_init, gain=1):
-    weight_init(module.weight.data, gain=gain)
-    bias_init(module.bias.data)
-    return module
-
-def init_normc_(weight, gain=1):
-    weight.normal_(0, 1)
-    weight *= gain / torch.sqrt(weight.pow(2).sum(1, keepdim=True))
-
 class NoopResetEnv(gym.Wrapper):
     def __init__(self, env, noop_max=30):
         """Sample initial states by taking random number of no-ops on reset.
